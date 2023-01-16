@@ -1,6 +1,6 @@
 # Extra Applications
 
-Applications listed here are NOT deployed via Ansible.  These are extra applications that I use or have used in the past.  
+Kubernetes applications listed here are NOT deployed via Ansible.  These are extra applications that I use or have used in the past.
 
 ## To deploy with ArgoCD
 
@@ -23,7 +23,11 @@ Each Application uses this directory structure:
   * Name it after the actual namespace
   * If multiple applications use the same namespace only one file will actually exist (be overwritten on copy)
 * `workloads` - This contains the application deployment files
-  * Could be the Helm `Chart.yaml` and `values.yaml` files or Kustomize directory structure and files, or just standard Kubernetes manifest files.
+  * Could be the Helm `Chart.yaml` and `values.yaml` files (these can also be embedded in `applications` file.)
+  * Could be Kustomize directory structure and files
+  * Could be just standard Kubernetes manifest files
+
+If you don't plan on using ArgoCD to deploy these applications, you can just extract the important bits from `applications` and `workloads` directories.
 
 ---
 
@@ -33,6 +37,7 @@ Each Application uses this directory structure:
 | ----- | ----------- |-----------------|
 | [Apt-Cacher NG](./apt-cacher-ng-argocd-helm/)| ArgoCD Helm Chart | Caching proxy for package files from Linux distributors. |
 | [Custom-Alerts](./custom-alerts/)| ArgoCD Kustomize | Alerts for Prometheus Operator Alertmanager for: Node Hardware, ArgoCD Sync Issues, Cert-Manager, Longhorn, Mosquitto, Sealed Secrets, Traefik Ingress Error codes, ZFS Monitoring. |
+| [External Snapshotter](./external-snapshotter-argocd-kustomize/)| ArgoCD Kustomize | The CSI snapshotter for Kubernetes implementation of [Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec) |
 | [Gitea](./gitea-argocd-kustomize/) | ArgoCD Kustomize | It is similar to GitHub, Bitbucket, and GitLab. |
 | [Goldilocks](./goldilocks/) | ArgoCD Helm Chart | Uses [Vertical Pod Autoscaler (VPA)](./vpa/) to make recommendations on container limit and request recommendations, includes a dashboard. |
 | [Home Assistant](./home-assistant-argocd-helm/) | ArgoCD Helm Chart | Open source home automation that puts local control and privacy first.|

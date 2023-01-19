@@ -19,7 +19,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: external-snapshotter
+    namespace: kube-system
 
   # Allow changes to number of replicas (down to zero)
   ignoreDifferences:

@@ -1,23 +1,26 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-namespace: external-snapshotter
+namespace: kube-system
 kind: Kustomization
 
 bases:
   - ./base/client/config/
   - ./base/deploy/csi-snapshotter/
+  - ./base/deploy/snapshot-controller/
 
 images:
   # https://github.com/kubernetes-csi/external-provisioner/releases
   - name: registry.k8s.io/sig-storage/csi-provisioner
-    newTag: v3.3.0
+    newTag: v3.4.0
   # https://github.com/kubernetes-csi/external-snapshotter/releases
+  - name: registry.k8s.io/sig-storage/snapshot-controller
+    newTag: v6.2.1
   - name: registry.k8s.io/sig-storage/csi-snapshotter
-    newTag: v6.1.0
+    newTag: v6.2.1
   # https://github.com/kubernetes-csi/csi-driver-host-path/releases
   - name: registry.k8s.io/sig-storage/hostpathplugin
-    newTag: v1.9.0
+    newTag: v1.11.0
 
 patches:
   # Set revisionHistoryLimit on StatefulSet

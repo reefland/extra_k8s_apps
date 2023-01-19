@@ -8,7 +8,11 @@ bases:
 
 images:
   - name: gitea/gitea
-    newTag: 1.17-rootless
+    # Gitea versioning is not standard. Renovate will update "1.17-rootless" to "1.18-rootless"
+    # when available, but will skip the .1, .2, .3 version releases. Using "1.17.1-rootless" allows
+    # renovate to detect the point release, but the "1.18-rootless" will be skipped as they do not
+    # include the .0 in it, but the "1.18.1-rootless" and .2, .3, .4 should be picked up.
+    newTag: 1.17.1-rootless
 
 generatorOptions:
   disableNameSuffixHash: true

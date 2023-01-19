@@ -20,6 +20,23 @@ This can be used to enable snapshot support for CSI like:
 
 Update file in `external-snapshotter-argocd-kustomize/workloads/gitea/kustomization.yaml` to define specifics about your Kubernetes environment:
 
+* Define the initial versions of the CSI Provisioner, Snapshotter, Snapshot Controller and hostpath plugin:
+
+  ```yaml
+  images:
+    # https://github.com/kubernetes-csi/external-provisioner/releases
+    - name: registry.k8s.io/sig-storage/csi-provisioner
+      newTag: v3.4.0
+    # https://github.com/kubernetes-csi/external-snapshotter/releases
+    - name: registry.k8s.io/sig-storage/snapshot-controller
+      newTag: v6.2.1
+    - name: registry.k8s.io/sig-storage/csi-snapshotter
+      newTag: v6.2.1
+    # https://github.com/kubernetes-csi/csi-driver-host-path/releases
+    - name: registry.k8s.io/sig-storage/hostpathplugin
+      newTag: v1.11.0
+  ```
+
 * Define Revision History Limits, belows sets to `3`:
 
   ```yaml

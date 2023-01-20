@@ -343,7 +343,7 @@ spec:
             deletionPolicy: Delete
             annotations: {}
             labels: {}
-            # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#cephfs-snapshots for available configuration
+            # see https://rook.io/docs/rook/v1.10/Storage-Configuration/Ceph-CSI/ceph-csi-snapshot/#cephfs-snapshots for available configuration
             parameters: {}
 
           cephBlockPoolsVolumeSnapshotClass:
@@ -353,7 +353,7 @@ spec:
             deletionPolicy: Delete
             annotations: {}
             labels: {}
-            # see https://rook.io/docs/rook/latest/ceph-csi-snapshot.html#rbd-snapshots for available configuration
+            # see https://rook.io/docs/rook/v1.10/Storage-Configuration/Ceph-CSI/ceph-csi-snapshot/#rbd-snapshots for available configuration
             parameters: {}
 
           cephObjectStores:

@@ -216,7 +216,7 @@ Server:
 Example of making a Velero backup of [Apt-Cacher NG](../apt-cacher-ng-argocd-helm/) to Minio S3 compatiable storage with included upload of PVC data to S3:
 
 ```shell
-$ velero backup create apt-cacher-ng-backup-02 --selector "app.kubernetes.io/name=apt-cacher-ng" --default-volumes-to-fs-backup true
+$ velero backup create apt-cacher-ng-backup-02 --selector "app.kubernetes.io/name=apt-cacher-ng" --default-volumes-to-fs-backup
 
 Backup request "apt-cacher-ng-backup-02" submitted successfully.
 ```

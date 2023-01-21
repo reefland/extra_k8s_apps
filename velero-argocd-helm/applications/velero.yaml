@@ -138,6 +138,7 @@ spec:
         # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
         defaultVolumesToFsBackup: true
 
+        # https://velero.io/docs/v1.10/api-types/schedule/
         # Backup schedules to create.
         # Eg:
         # schedules:
@@ -148,6 +149,7 @@ spec:
         #     annotations:
         #       myenv: foo
         #     schedule: "0 0 * * *"
+        #     # If set to true, it will delete backups when CRDs are updated - CAREFUL!
         #     useOwnerReferencesInBackup: false
         #     template:
         #       ttl: "240h"
@@ -158,13 +160,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: velero
-
-  # Allow changes to number of replicas (down to zero)
-  ignoreDifferences:
-    - group: apps
-      kind: StatefulSet
-      jsonPointers:
-        - /spec/replicas
 
   syncPolicy:
     automated:

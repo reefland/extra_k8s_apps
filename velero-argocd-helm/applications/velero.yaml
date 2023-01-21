@@ -1,0 +1,174 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: velero
+  # cascade deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "12"  # Lower the number the sooner to deploy
+spec:
+  project: default
+  revisionHistoryLimit: 3
+
+  source:
+    chart: velero
+    repoURL: https://vmware-tanzu.github.io/helm-charts
+    targetRevision: 3.1.0
+    helm:
+      values: |
+        # https://github.com/vmware-tanzu/helm-charts/blob/main/charts/velero/values.yaml
+        #
+        # Resource requests/limits to specify for the Velero deployment.
+        # https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
+        resources:
+          requests:
+            cpu: 500m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+
+        initContainers:
+          - name: velero-plugin-for-csi
+            # renovate: datasource=docker depName=velero/velero-plugin-for-csi
+            image: velero/velero-plugin-for-csi:v0.3.2
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+
+          - name: velero-plugin-for-aws
+            # renovate: datasource=docker depName=velero/velero-plugin-for-aws
+            image: velero/velero-plugin-for-aws:v1.5.2
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+
+        metrics:
+          enabled: true
+
+        serviceMonitor:
+          enabled: true
+
+        prometheusRule:
+          enabled: true
+          # Additional labels to add to deployed PrometheusRule
+          additionalLabels:
+          # PrometheusRule namespace. Defaults to Velero namespace.
+          # namespace: ""
+          # Rules to be deployed
+          spec:
+            - alert: VeleroBackupPartialFailures
+              annotations:
+                message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} partialy failed backups.
+              expr: |-
+                velero_backup_partial_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+              for: 15m
+              labels:
+                severity: warning
+            - alert: VeleroBackupFailures
+              annotations:
+                message: Velero backup {{ $labels.schedule }} has {{ $value | humanizePercentage }} failed backups.
+              expr: |-
+                velero_backup_failure_total{schedule!=""} / velero_backup_attempt_total{schedule!=""} > 0.25
+              for: 15m
+              labels:
+                severity: warning
+
+        # This job upgrades the CRDs.
+        upgradeCRDs: true
+
+        # This job is meant primarily for cleaning up CRDs on CI systems.
+        # Using this on production systems, especially those that have multiple releases of Velero, will be destructive.
+        cleanUpCRDs: false
+
+        configuration:
+          features: EnableCSI
+          provider: aws
+
+          # Parameters for the `minio` BackupStorageLocation. See
+          # https://velero.io/docs/v1.10/api-types/backupstoragelocation/
+          backupStorageLocation:
+            name: minio
+            provider: aws
+            bucket: velero
+            prefix:
+            # default indicates this location is the default backup storage location. Optional.
+            default: true
+            # accessMode determines if velero can write to this backup storage location. Optional.
+            # default to ReadWrite, ReadOnly is used during migrations and restores.
+            accessMode: ReadWrite
+            config:
+              region: minio
+              s3ForcePathStyle: true
+              s3Url: "https://minio.example.com:9000"
+
+          # Parameters for the `minio` VolumeSnapshotLocation. See
+          # https://velero.io/docs/v1.10/api-types/volumesnapshotlocation/
+          volumeSnapshotLocation:
+            name: minio
+            provider: aws
+            config:
+              region: minio
+
+        # Info about the secret to be used by the Velero deployment, which should contain credentials for
+        # the cloud provider IAM account you've set up for Velero.
+        credentials:
+          # Whether a secret should be used. Set to false if, for examples:
+          useSecret: true
+          # Name of a pre-existing secret (if any) in the Velero namespace that should be used to
+          # get IAM account credentials. Optional.
+          existingSecret: velero-secrets-store
+
+        # Whether to deploy the node-agent daemonset. (Enabled restic/kopia backups)
+        deployNodeAgent: true
+
+        # These are server-level settings passed as CLI flags to the `velero server` command. Velero
+        # uses default values if they're not passed in, so they only need to be explicitly specified
+        # here if using a non-default value. The `velero server` default values are shown in the
+        # comments below.
+        # --------------------
+        # `velero server` default: restic
+        uploaderType: kopia
+
+        # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
+        defaultVolumesToFsBackup: true
+
+        # Backup schedules to create.
+        # Eg:
+        # schedules:
+        #   mybackup:
+        #     disabled: false
+        #     labels:
+        #       myenv: foo
+        #     annotations:
+        #       myenv: foo
+        #     schedule: "0 0 * * *"
+        #     useOwnerReferencesInBackup: false
+        #     template:
+        #       ttl: "240h"
+        #       includedNamespaces:
+        #       - foo
+        schedules: {}
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+
+  # Allow changes to number of replicas (down to zero)
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/replicas
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true

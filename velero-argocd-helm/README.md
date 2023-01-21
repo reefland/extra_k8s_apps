@@ -21,6 +21,8 @@ Velero is a tool to safely backup and restore, perform disaster recovery, and mi
 
 NOTE: You will need to create a secret prior to installation such as:
 
+### Create Secret for Backup Location
+
   ```yaml
   ---
   apiVersion: v1
@@ -41,6 +43,34 @@ NOTE: You will need to create a secret prior to installation such as:
 * Where `aws_secret_access_key` is the password to be used for the above account.
 
 Apply this directly, or convert to a [Sealed-Secret](https://github.com/reefland/ansible-k3s-argocd-renovate/blob/master/docs/sealed-secrets-settings.md) and commit the encrypted secret to GitHub for deployment.
+
+---
+
+### ArgoCD Workarounds
+
+Velero Helm Chart does some unique things with CRDs resulting in ArgoCD pruning resources (backups) when CRDS are updates or your force a resync / replace.
+
+#### Prevent ArgoCD Backup Deletes Upon CRD Update
+
+* Within your ArgoCD Helm Chart's `values.yaml` locate the `server.config` which generates the `argocd-cm` configMap.  Add the following:
+
+  ```yaml
+    # Velero Backups don't delete backups on upgrades
+    # https://adamrushuk.github.io/how-to-avoid-backup-deletion-during-velero-upgrades-via-argo-cd/
+    resource.exclusions: |
+        - apiGroups:
+          - "velero.io"
+          kinds:
+          - Backup
+          clusters:
+          - "*"
+  ```
+
+* Save and commit change, allow ArgoCD to sync itself.
+
+---
+
+### Velero Installation
 
 Review `velero-argocd-helm/applications/velero.yaml`
 
@@ -341,5 +371,42 @@ restic Backups:
 * Backup can be restored on:
   * Same cluster / same or different namespace
   * Different cluster / same or different namespace
+
+---
+
+### Schedule Backups
+
+Locate the schedule section, and review [Project Docs on Scheduler](https://velero.io/docs/v1.10/api-types/schedule/)
+
+  ```yaml
+    schedules: {}
+  ```
+
+Examnple I use to backup Gitea Source Control:
+
+  ```yaml
+  schedules:
+    gitea:
+      disabled: false
+      # Run at 5AM each morning
+      schedule: "0 5 * * *"
+      # If set to true, it will delete backups when CRDs are updated - CAREFUL!
+      useOwnerReferencesInBackup: false
+      template:
+        # Keep for 10 days / Default is 30 days
+        ttl: "240h"
+        includedNamespaces:
+          - gitea
+        # Backup everything, you can filter objects during restore
+        includedResources:
+          - '*'
+        storageLocation: minio
+        volumeSnapshotLocations:
+          - minio
+        # Perform filesystem backup to storage
+        defaultVolumesToFsBackup: true
+  ```
+
+* This will backup everything within the `Gitea` namespace, and perform a Restic backup of the PVC data to MiniIO S3 compatible storage.
 
 [Return to Application List](../)

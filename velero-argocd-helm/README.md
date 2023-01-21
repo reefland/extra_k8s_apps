@@ -223,7 +223,7 @@ Backup request "apt-cacher-ng-backup-02" submitted successfully.
 
 * `apt-cacher-ng-backup-02` is the name of the backup
 * `app.kubernetes.io/name=apt-cacher-ng` is the label applied to the pod to backup (defines what to backup)
-* `--default-volumes-to-fs-backup true` option passed to the backup engine (do File System backup)
+* `--default-volumes-to-fs-backup` option passed to the backup engine (do File System backup)
 
 Monitor Progress:
 

@@ -374,5 +374,48 @@ Initial Ceph Dashboard:
   * Be sure to bump `replicated.size` to `3`
   * Enable the storage class
 
+---
+
+## Ceph Grafana Integration
+
+I was unable to get Grafana Integration working with an in-cluster FQDN.  I had to reference the external domain name:
+
+```shell
+kubectl -n rook-ceph exec -it deploy/rook-ceph-tools \
+  -- ceph dashboard set-grafana-api-url 'https://k3s.example.com/grafana/'
+```
+
+* May need to also set credentials to access dashboard (can create an alternate user in Grafana):
+
+```shell
+ceph dashboard set-grafana-api-username 'admin'
+ceph dashboard set-grafana-api-password 'password-here'
+```
+
+I also had to enable `allow_embedding` within the `grafana.ini` section of the Kube Prometheus Stack ArgoCD / Helm Chart:
+
+```yaml
+  grafana.ini:
+    server:
+
+    ...
+
+    security:
+      allow_embedding: true
+```
+
+Once configured and respective dashboards are deployed, the Grafana integration should be functional:
+Overall Host Performance:
+![Rook Ceph Grafana Integration showing Host Metrics](rook_ceph_grafana_integrated.png)
+
+Individual OSD Performance:
+![Rook Ceph Grafana Integration showing Individual OSD Performance](rook_ceph_grafana_integrated_2.png)
+
+---
+
+Additional Dashboard of Ceph Cluster overview is deployed:
+
 Ceph Grafana Dashboard:
 ![Ceph Grafana Dashboard](rook_ceph_grafana_dashboard.png)
+
+[Return to Application List](../)

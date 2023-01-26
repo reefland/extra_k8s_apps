@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+###[ Global options ]##########################################################
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "true"
+namespace: monitoring
+
+###[ Generate a ConfigMap for each dashboard ]#################################
+configMapGenerator:
+
+# Rook-Ceph Dashboards
+  - name: k8s-app-ceph-cluster
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/ceph-cluster.json ]
+  - name: k8s-app-ceph-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/cephfs-overview.json ]
+  - name: k8s-app-ceph-host-details
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/host-details.json ]
+  - name: k8s-app-ceph-host-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/hosts-overview.json ]
+  - name: k8s-app-ceph-osd-device-details
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/osd-device-details.json ]
+  - name: k8s-app-ceph-osd-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/osds-overview.json ]
+  - name: k8s-app-ceph-pool-details
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/pool-detail.json ]
+  - name: k8s-app-ceph-pool-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/pool-overview.json ]
+  - name: k8s-app-ceph-radosgw-detail
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/radosgw-detail.json ]
+  - name: k8s-app-ceph-radosgw-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/radosgw-overview.json ]
+  - name: k8s-app-ceph-radosgw-sync-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/radosgw-sync-overview.json ]
+  - name: k8s-app-ceph-rbd-details
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/rbd-details.json ]
+  - name: k8s-app-ceph-rbd-overview
+    files: [ https://raw.githubusercontent.com/ceph/ceph/main/monitoring/ceph-mixin/dashboards_out/rbd-overview.json ]
+  - name: k8s-app-ceph-cluster-overview-2842
+    files: [ k8s-app-ceph-cluster-overview-2842.json ]

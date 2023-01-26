@@ -411,6 +411,8 @@ Overall Host Performance:
 Individual OSD Performance:
 ![Rook Ceph Grafana Integration showing Individual OSD Performance](rook_ceph_grafana_integrated_2.png)
 
+* NOTE: Performance metrics for RBD (block-device) is disabled by default due to performance impact of the monitoring. See [docs for details](https://docs.ceph.com/en/quincy/mgr/dashboard/#enabling-rbd-image-monitoring).
+
 ---
 
 Additional Dashboard of Ceph Cluster overview is deployed:

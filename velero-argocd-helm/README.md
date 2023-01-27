@@ -409,4 +409,14 @@ Examnple I use to backup Gitea Source Control:
 
 * This will backup everything within the `Gitea` namespace, and perform a Restic backup of the PVC data to MiniIO S3 compatible storage.
 
+---
+
+## MinIO Dashboard
+
+If you are using Velero to push backups to an external Minio installation, then you mights like a Grafana Dashboard about MinIO.  The default dashboard for MinIO seems to be intended for a Distributed / Cluster installation not a single disk install that I use on TrueNAS.  I had to modify the dashboard a bit to be more useful with the reduced set of available metrics.
+
+![MinIO Grafana Dashboard](minio_grafana_dashboard.png)
+
+* It is outside the scope of this document to cover MinIO configuration, but you will need to enable metrics and create a Prometheus scrape job to fetch the metrics.
+
 [Return to Application List](../)

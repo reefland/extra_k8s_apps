@@ -142,41 +142,54 @@ Review the example [values.yaml](https://github.com/vmware-tanzu/helm-charts/blo
 * Define the storage location. This installation uses MinIO, an S3 compatible object store.  This defines a storage location named `minio`:
 
   ```yaml
-    # Parameters for the `minio` BackupStorageLocation. See
-    # https://velero.io/docs/v1.10/api-types/backupstoragelocation/
-    backupStorageLocation:
-      name: minio
-      provider: aws
+      # Parameters for the `minio` BackupStorageLocation. See
+      # https://velero.io/docs/v1.10/api-types/backupstoragelocation/
+      backupStorageLocation:
+        name: minio
+        provider: aws
   ```
 
 * Define the S3 storage bucket name (required) and prefix (optional) to store the backup:
 
   ```yaml
-      bucket: velero
-      prefix:
+        bucket: velero
+        prefix:
   ```
 
 * The S3 compatible storage can be defined with a region name (AWS uses "us‑east‑1" as an example), this can be "default" or "minio" whatever you defined in the S3 storage configuration.
   * Define the URL to access your S3 bucket:
 
   ```yaml
-      config:
-        region: minio
-        s3ForcePathStyle: true
-        s3Url: "https://minio.example.com:9000"
+        config:
+          region: minio
+          s3ForcePathStyle: true
+          s3Url: "https://minio.example.com:9000"
   ```
 
 * Define the location where snapshots will be stored:
 
   ```yaml
-    # Parameters for the `minio` VolumeSnapshotLocation. See
-    # https://velero.io/docs/v1.10/api-types/volumesnapshotlocation/
-    volumeSnapshotLocation:
-      name: minio
-      provider: aws
-      config:
-        region: minio
+      # Parameters for the `minio` VolumeSnapshotLocation. See
+      # https://velero.io/docs/v1.10/api-types/volumesnapshotlocation/
+      volumeSnapshotLocation:
+        name: minio
+        provider: aws
+        config:
+          region: minio
   ```
+
+* Define the data uploader type such as [restic](https://restic.net/) or [kopia](https://kopia.io/):
+
+  ```yaml
+      uploaderType: kopia
+  ```
+
+* Define if you want this to be used by default or would you rather it only apply to annotated pods:
+
+  ```yaml
+      # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
+      defaultVolumesToFsBackup: true
+    ```
 
 * Define the name of the secret to use which has the User ID and Password to connect to the S3 bucket:
 
@@ -198,18 +211,6 @@ Review the example [values.yaml](https://github.com/vmware-tanzu/helm-charts/blo
     deployNodeAgent: true
   ```
 
-* Define the data uploader type such as [restic](https://restic.net/) or [kopia](https://kopia.io/):
-
-  ```yaml
-    uploaderType: kopia
-  ```
-
-* Define if you want this to be used by default or would you rather it only apply to annotated pods:
-
-  ```yaml
-    # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
-    defaultVolumesToFsBackup: true
-  ```
 
 ---
 

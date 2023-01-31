@@ -115,6 +115,17 @@ spec:
             config:
               region: minio
 
+          # These are server-level settings passed as CLI flags to the `velero server` command. Velero
+          # uses default values if they're not passed in, so they only need to be explicitly specified
+          # here if using a non-default value. The `velero server` default values are shown in the
+          # comments below.
+          # --------------------
+          # `velero server` default: restic
+          uploaderType: kopia
+
+          # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
+          defaultVolumesToFsBackup: true
+
         # Info about the secret to be used by the Velero deployment, which should contain credentials for
         # the cloud provider IAM account you've set up for Velero.
         credentials:
@@ -126,17 +137,6 @@ spec:
 
         # Whether to deploy the node-agent daemonset. (Enabled restic/kopia backups)
         deployNodeAgent: true
-
-        # These are server-level settings passed as CLI flags to the `velero server` command. Velero
-        # uses default values if they're not passed in, so they only need to be explicitly specified
-        # here if using a non-default value. The `velero server` default values are shown in the
-        # comments below.
-        # --------------------
-        # `velero server` default: restic
-        uploaderType: kopia
-
-        # Set true for backup all pod volumes without having to apply annotation on the pod when used file system backup Default: false.
-        defaultVolumesToFsBackup: true
 
         # https://velero.io/docs/v1.10/api-types/schedule/
         # Backup schedules to create.

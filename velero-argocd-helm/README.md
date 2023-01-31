@@ -114,17 +114,17 @@ Review the example [values.yaml](https://github.com/vmware-tanzu/helm-charts/blo
           name: plugins
   ```
 
-* Enable Prometheus Integration - [See GitHub Issue 388](https://github.com/vmware-tanzu/helm-charts/issues/388) which prevents it from working under ArgoCD.
+* Enable Prometheus Integration to provide monitoring and alerting.
 
   ```yaml
     metrics:
       enabled: true
 
-    serviceMonitor:
-      enabled: true
+      serviceMonitor:
+        enabled: true
 
-    prometheusRule:
-      enabled: true
+      prometheusRule:
+        enabled: true
   ```
 
 ---
@@ -210,7 +210,6 @@ Review the example [values.yaml](https://github.com/vmware-tanzu/helm-charts/blo
     # Whether to deploy the node-agent daemonset. (Enabled restic/kopia backups)
     deployNodeAgent: true
   ```
-
 
 ---
 

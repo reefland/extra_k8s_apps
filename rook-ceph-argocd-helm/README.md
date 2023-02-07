@@ -378,18 +378,38 @@ Initial Ceph Dashboard:
 
 ## Ceph Grafana Integration
 
+Ceph Dashboard requires two different connections to Grafana.  The first is used internal to verify the Grafana dashboards are actually deployed.  Once confirmed to be deployed, the second URL is embedded within Ceph Dashboard pages as iFrames pointing to the Grafana dashboard to be displayed.
+
 I was unable to get Grafana Integration working with an in-cluster FQDN.  I had to reference the external domain name:
 
 ```shell
-kubectl -n rook-ceph exec -it deploy/rook-ceph-tools \
-  -- ceph dashboard set-grafana-api-url 'https://k3s.example.com/grafana/'
+ ceph dashboard set-grafana-api-url 'http://grafana.monitoring.svc.cluster.local/grafana/'
+
+ ceph dashboard set-grafana-frontend-api-url 'https://k3s.example.com/grafana/'
+```
+
+* Set Dashboard Redirection to Error and set error code:
+
+```shell
+ceph config set mgr mgr/dashboard/standby_behaviour "error"
+
+ceph config set mgr mgr/dashboard/standby_error_status_code 503
 ```
 
 * May need to also set credentials to access dashboard (can create an alternate user in Grafana):
 
 ```shell
 ceph dashboard set-grafana-api-username 'admin'
+
 ceph dashboard set-grafana-api-password 'password-here'
+```
+
+* Restart the Ceph Dashboard module for changes to take effect:
+
+```shell
+ceph mgr module disable dashboard
+
+ceph mgr module enable dashboard
 ```
 
 I also had to enable `allow_embedding` within the `grafana.ini` section of the Kube Prometheus Stack ArgoCD / Helm Chart:

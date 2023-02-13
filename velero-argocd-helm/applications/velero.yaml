@@ -21,6 +21,12 @@ spec:
       values: |
         # https://github.com/vmware-tanzu/helm-charts/blob/main/charts/velero/values.yaml
         #
+        image:
+          repository: velero/velero
+          # renovate: datasource=github-releases depName=velero/velero
+          tag: v1.10.1
+          pullPolicy: IfNotPresent
+
         # Resource requests/limits to specify for the Velero deployment.
         # https://velero.io/docs/v1.6/customize-installation/#customize-resource-requests-and-limits
         resources:

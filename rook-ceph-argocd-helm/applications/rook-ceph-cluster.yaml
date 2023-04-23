@@ -250,7 +250,7 @@ spec:
                 traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
                 traefik.ingress.kubernetes.io/router.middlewares: "traefik-x-forward-https-headers@kubernetescrd,traefik-compress@kubernetescrd"
               host:
-                name: k3s.example.com
+                name: k3s.stromberg.uk
                 path: "/ceph-dashboard/"
 
           cephBlockPools:

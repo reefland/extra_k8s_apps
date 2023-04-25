@@ -38,7 +38,7 @@ Review file `cloudflared-tunnel-argocd-helm/applications/cloudflared.yaml`
     namespace: cloudflared
   ```
 
-  * And update file 
+  * And update file
 Review file `cloudflared-tunnel-argocd-helm/namespaces/cloudflared.yaml` to match:
 
   ```yaml

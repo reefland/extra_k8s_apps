@@ -36,6 +36,7 @@ If you don't plan on using ArgoCD to deploy these applications, you can just ext
 | Application | Type | Description |
 | ----- | ----------- |-----------------|
 | [Apt-Cacher NG](./apt-cacher-ng-argocd-helm/)| ArgoCD Helm Chart | Caching proxy for package files from Linux distributors. |
+| [Cloudflare Tunnel](./cloudflared-tunnel-argocd-helm/)| ArgoCD Helm Chart | Enable Internet Access for your applications without Public IP address |
 | [Custom-Alerts](./custom-alerts/)| ArgoCD Kustomize | Alerts for Prometheus Operator Alertmanager for: Node Hardware, ArgoCD Sync Issues, Cert-Manager, Longhorn, Mosquitto, Sealed Secrets, Traefik Ingress Error codes, ZFS Monitoring. |
 | [External Snapshotter](./external-snapshotter-argocd-kustomize/)| ArgoCD Kustomize | The CSI snapshotter for Kubernetes implementation of [Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec) |
 | [Gitea](./gitea-argocd-kustomize/) | ArgoCD Kustomize | It is similar to GitHub, Bitbucket, and GitLab. |

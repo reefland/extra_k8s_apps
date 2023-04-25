@@ -140,3 +140,5 @@ INFO: Remember to restart Home Assistant before you configure it
 ```
 
 Once this has completed, you can proceed to the Initial HACS Configuration: [https://hacs.xyz/docs/configuration/basic/](https://hacs.xyz/docs/configuration/basic/)
+
+[Return to Application List](../)

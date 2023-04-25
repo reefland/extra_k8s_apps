@@ -1,0 +1,37 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: cloudflared
+  # cascade deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"  # Lower the number the sooner to deploy
+spec:
+  project: default
+  revisionHistoryLimit: 3
+
+  sources:
+    - repoURL: https://bjw-s.github.io/helm-charts
+      chart: app-template
+      targetRevision: 1.4.0
+      helm:
+        valueFiles:
+          - $values/workloads/cloudflared/values.yaml
+
+    - repoURL: https://github.com/<USER_NAME>/<REPO_NAME>.git
+      targetRevision: HEAD
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cloudflared
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true

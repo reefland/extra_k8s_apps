@@ -1,0 +1,84 @@
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/deployment-guides/kubernetes/#routing-with-cloudflare-tunnel
+# https://github.com/bjw-s/helm-charts/blob/main/charts/library/common/values.yaml
+
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+controller:
+  enabled: true
+  type: deployment
+  revisionHistoryLimit: 3
+  replicas: 2
+  strategy: RollingUpdate
+
+image:
+  repository: cloudflare/cloudflared
+  tag: "2023.4.1"
+  pullPolicy: IfNotPresent
+
+command:
+  - cloudflared
+  - tunnel
+  # In a k8s environment, the metrics server needs to listen outside the pod it runs on. 
+  # The address 0.0.0.0:2000 allows any pod in the namespace.
+  - --metrics
+  - 0.0.0.0:2000
+  - --no-autoupdate
+  - run
+args:
+  - --token
+  - "$(CLOUDFLARED_TOKEN)"
+
+envFrom:
+  - secretRef:
+      name: cloudflared-secret
+
+env:
+  TZ: America/New_York
+
+service:
+  main:
+    ports:
+      http:
+        port: &port 2000
+
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /ready
+        port: *port
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: cloudflared
+
+resources:
+  requests:
+    cpu: "35m"
+    memory: "50Mi"
+  limits:
+    cpu: "150m"
+    memory: "75Mi"
+
+# https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/do-more-with-tunnels/grafana/
+serviceMonitor:
+  main:
+    enabled: true
+    endpoints:
+      - port: http
+        interval: 15s
+        scrapeTimeout: 10s
+        path: /metrics

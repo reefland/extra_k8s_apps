@@ -7,4 +7,12 @@ resources:
   - deployment.yaml
   - service.yaml
   - service-monitor.yaml
-  - configmap-dashboard.yaml
+
+configMapGenerator:
+  - name: mosquitto-broker-dashboard-11542
+    files: [ mosquitto-dashboard.json ]
+
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    grafana_dashboard: "true"

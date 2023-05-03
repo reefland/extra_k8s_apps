@@ -31,10 +31,3 @@ patches:
       value: monitoring
   target:
     kind: ServiceMonitor
-
-- patch: |-
-    - op: replace
-      path: /metadata/namespace
-      value: monitoring
-  target:
-    kind: ConfigMap

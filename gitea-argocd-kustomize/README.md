@@ -58,7 +58,20 @@ Update file in `gitea-argocd-kustomize/workloads/gitea/kustomization.yaml` to de
         value: "local-path"
   ```
 
-If you wish to enable `cpu` and `memory` resource limits then update file `resources-patch.yaml`.
+* Define Requests and Limits for Gitea StatefulSet:
+
+  ```yaml
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            cpu: "15m"
+            memory: "640Mi"
+          limits:
+            cpu: "75m"
+            memory: "640Mi"
+  ```
 
 ---
 

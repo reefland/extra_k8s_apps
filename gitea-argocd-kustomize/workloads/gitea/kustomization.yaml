@@ -59,8 +59,16 @@ patches:
       name: gitea-data
 
   # Set CPU and Memory Resources
-  # Edit resources-patch.yaml to enable / adjust values
-  - path: resources-patch.yaml
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            cpu: "15m"
+            memory: "640Mi"
+          limits:
+            cpu: "75m"
+            memory: "640Mi"
     target:
       kind: StatefulSet
       name: gitea

@@ -1,0 +1,15 @@
+---
+area/github:
+  - ".github/**/*"
+area/argocd-app:
+  - "*argocd*/**/*"
+area/helm:
+  - "*helm*/**/*"
+area/custom-alerts:
+  - "custom-alerts/**/*"
+area/README-update:
+  - "**/README.md"
+area/kustomization:
+  - "**/kustomization.yaml"
+area/image-update:
+  - "**/*.png"

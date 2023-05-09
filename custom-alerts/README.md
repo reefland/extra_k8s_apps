@@ -59,7 +59,7 @@ These alerts cover each node in the cluster.
 |---                             | ---          |---                  |
 | Host ZFS Pool Unexpected State | Not "online" | 1 minute            |
 
-* NOTE: ZFS Pool Status metrics require `zfs_exporter` (See [Prometheus Exporters](../../docs/prometheus-exporters-settings.md))
+* NOTE: ZFS Pool Status metrics require `zfs_exporter` (See [Prometheus Exporters](https://github.com/reefland/ansible-k3s-argocd-renovate/blob/master/docs/prometheus-exporters-settings.md))
   * Recent ZFS version removed the metrics that `node-exporter` used to scrape metrics - [See GitHub Issue](https://github.com/prometheus/node_exporter/issues/2068).
 
 ---

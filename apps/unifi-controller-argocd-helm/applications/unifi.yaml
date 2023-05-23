@@ -1,8 +1,8 @@
-
 # References:
 # https://github.com/reefland/helm-charts/tree/main/charts/apps/unifi
 # https://github.com/reefland/helm-charts/blob/main/charts/apps/unifi/values.yaml
 # https://github.com/reefland/helm-charts/blob/main/charts/library/common/values.yaml
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application

@@ -9,13 +9,13 @@ metadata:
 
 spec:
   rules:
-  - host: "gitea.example.com"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: gitea-http
-            port:
-              number: 3000
+    - host: "gitea.example.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: gitea-http
+                port:
+                  number: 3000

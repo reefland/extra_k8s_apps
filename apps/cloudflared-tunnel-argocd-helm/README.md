@@ -1,6 +1,8 @@
-# Cloudflare Tunnel - Enable Internet Access without Public IP address
+# Cloudflare Tunnel - Enable internet access without public IP address
 
-Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address. With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s global network. Cloudflare Tunnel can connect HTTP web servers, SSH servers, remote desktops, and other protocols safely to Cloudflare.
+Cloudflare Tunnel provides you with a secure way to connect your resources to Cloudflare without a publicly routable IP address.
+
+* With Tunnel, you do not send traffic to an external IP — instead, a lightweight daemon in your infrastructure (cloudflared) creates outbound-only connections to Cloudflare’s global network. Cloudflare Tunnel can connect HTTP web servers, SSH servers, remote desktops, and other protocols safely to Cloudflare.
 
 IMPORTANT: _This does not cover any steps needed to create, configure or secure a Cloudflare tunnel. That is beyond the scope of this document.  Once you have created your tunnel and have a tunnel token, then this can be used to establish the outbound connection between Kubernetes and Cloudflare._
 
@@ -95,7 +97,7 @@ The only configuration required is to create a secret named `cloudflared-secret`
   ```shell
   echo -n "..token goes here..." | base64
 
-  T01HLiBEaWQgeW91IHJlYWxseSB0aGluayBJIHdvdWxkIHB1dCBteSB0b2tlbiBoZXJlPyBsb2x6IC0gdGhhbmtzIGZvciBjaGVja2luZy4gRW5qb3kgdGhlIHJlc3Qgb2YgeW91ciBkYXku
+  T01HLiBE.....91ciBkYXku
   ```
 
 * Then place the base64 encoded token into a secret:
@@ -109,7 +111,7 @@ The only configuration required is to create a secret named `cloudflared-secret`
     namespace: cloudflared
   type: Opaque
   data:
-    CLOUDFLARED_TOKEN: T01HLiBEaWQgeW91IHJlYWxseSB0aGluayBJIHdvdWxkIHB1dCBteSB0b2tlbiBoZXJlPyBsb2x6IC0gdGhhbmtzIGZvciBjaGVja2luZy4gRW5qb3kgdGhlIHJlc3Qgb2YgeW91ciBkYXku
+    CLOUDFLARED_TOKEN: T01HLiBE.....91ciBkYXku
   ```
 
 * Apply the secret or convert to a sealed secret or process as you would any other secret to the respective namespace (`cloudflared` by default):

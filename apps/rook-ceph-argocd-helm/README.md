@@ -266,7 +266,7 @@ Initial Ceph Dashboard:
 
 ### Storage Pools
 
-* `cephBlockPools` is a pre-defined storage pool for block storage:
+* `cephBlockPools` is a predefined storage pool for block storage:
 
   ```yaml
       cephBlockPools:
@@ -304,7 +304,7 @@ Initial Ceph Dashboard:
   ceph-block (default)   rook-ceph.rbd.csi.ceph.com   Retain          Immediate           true                   7d21h
   ```
 
-* `cephFileSystems` is a pre-defined storage pool for CephFS storage (shared filesystem):
+* `cephFileSystems` is a predefined storage pool for CephFS storage (shared filesystem):
 
   ```yaml
       cephFileSystems:

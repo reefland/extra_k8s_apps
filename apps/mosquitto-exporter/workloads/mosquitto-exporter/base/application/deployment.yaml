@@ -23,13 +23,13 @@ spec:
       affinity:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - mosquitto
-            topologyKey: "kubernetes.io/hostname"
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/name
+                    operator: In
+                    values:
+                      - mosquitto
+              topologyKey: "kubernetes.io/hostname"
 
       containers:
       - name: mosquitto-exporter
@@ -42,7 +42,7 @@ spec:
             memory: "64Mi"
             cpu: "100m"
         ports:
-        - containerPort: 9234
+          - containerPort: 9234
         env:
           - name: MQTT_USER
             valueFrom:

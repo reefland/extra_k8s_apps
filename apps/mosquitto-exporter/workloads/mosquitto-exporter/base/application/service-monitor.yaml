@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -9,15 +10,15 @@ metadata:
 
 spec:
   endpoints:
-  - honorLabels: true
-    interval: 10s
-    path: /metrics
-    port: metrics
-    targetPort: 9234
+    - honorLabels: true
+      interval: 10s
+      path: /metrics
+      port: metrics
+      targetPort: 9234
   jobLabel: mosquitto-exporter-metrics
   namespaceSelector:
     matchNames:
-    - mosquitto
+      - mosquitto
   selector:
     matchLabels:
       app: mosquitto-exporter-metrics

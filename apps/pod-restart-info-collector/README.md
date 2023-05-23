@@ -36,7 +36,7 @@ Review file `pod-restart-info-collector/applications/pod-restart-info-collector.
       muteSeconds: 600
   ```
 
-  * See [Project Github Page](https://github.com/airwallex/k8s-pod-restart-info-collector) for additional details on values
+  * See [Project GitHub Page](https://github.com/airwallex/k8s-pod-restart-info-collector) for additional details on values
   * Uncomment and set `clusterName` which can be any value, used in messages only
   * Uncommnet and set `slackWebhookURL` to the value appropriate for your Slack setup
     * Works well with other Slack compatible Webhooks such as Mattermost

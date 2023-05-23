@@ -5,6 +5,7 @@
 # namespace for components implementing base system functionality. For installing with
 # Vanilla Kubernetes, kube-system makes sense for the namespace.
 
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -66,9 +67,9 @@ metadata:
   name: snapshot-controller-leaderelection
   namespace: kube-system
 rules:
-- apiGroups: ["coordination.k8s.io"]
-  resources: ["leases"]
-  verbs: ["get", "watch", "list", "delete", "update", "create"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "watch", "list", "delete", "update", "create"]
 
 ---
 kind: RoleBinding

@@ -16,7 +16,7 @@ Review file `zigbee2mqtt-argocd-helm/applications/zigbee2mqtt.yaml`
     project: default
   ```
 
-* The source repository URL specifies the version of the `app-template` as well as the path within your GitHub repo for location of the `values.yaml`:
+* The source repository URL specifies the version of the `app-template` as well as the path within your GitHub repository for location of the `values.yaml`:
 
   ```yaml
     - repoURL: https://bjw-s.github.io/helm-charts

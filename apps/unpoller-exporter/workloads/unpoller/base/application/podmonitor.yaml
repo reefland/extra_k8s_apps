@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: unpoller
   namespaceSelector:
     matchNames:
-    - unifi
+      - unifi
   podMetricsEndpoints:
-  - port: metrics
-    path: /metrics
+    - port: metrics
+      path: /metrics

@@ -8,6 +8,7 @@
 #   provisioner, in which case leadership election must be enabled;
 #   this influences the RBAC setup, see below
 
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -74,9 +75,9 @@ metadata:
   namespace: kube-system
   name: external-provisioner-cfg
 rules:
-- apiGroups: ["coordination.k8s.io"]
-  resources: ["leases"]
-  verbs: ["get", "watch", "list", "delete", "update", "create"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "watch", "list", "delete", "update", "create"]
 
 ---
 kind: RoleBinding

@@ -2,7 +2,10 @@
 # https://github.com/reefland/helm-charts/tree/main/charts/apps/home-assistant
 # https://github.com/reefland/helm-charts/tree/main/charts/apps/home-assistant/values.yaml
 # https://github.com/reefland/helm-charts/blob/main/charts/library/common/values.yaml
+
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

@@ -1,5 +1,6 @@
 # References:
 # https://www.zigbee2mqtt.io/guide/faq/
+
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json
 

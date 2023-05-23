@@ -111,7 +111,7 @@ The only configuration required is to create a secret named `cloudflared-secret`
     namespace: cloudflared
   type: Opaque
   data:
-    CLOUDFLARED_TOKEN: T01HLiBE.....91ciBkYXku
+    CLOUDFLARED_TOKEN: [base64_encoded_token_here]
   ```
 
 * Apply the secret or convert to a sealed secret or process as you would any other secret to the respective namespace (`cloudflared` by default):

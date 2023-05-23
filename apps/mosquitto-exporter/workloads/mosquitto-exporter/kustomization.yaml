@@ -11,9 +11,9 @@ images:
     newTag: 0.8.0
 
 configMapGenerator:
-- name: mosquitto-exporter-configmap
-  literals:
-    - broker-endpoint="tcp://mosquitto.mosquitto:1883"
+  - name: mosquitto-exporter-configmap
+    literals:
+      - broker-endpoint="tcp://mosquitto.mosquitto:1883"
 
 # Don't base64 encode secret values here
 #secretGenerator:

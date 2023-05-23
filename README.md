@@ -35,22 +35,22 @@ If you don't plan on using ArgoCD to deploy these applications, you can just ext
 
 | Application | Type | Description |
 | ----- | ----------- |-----------------|
-| [Apt-Cacher NG](./apt-cacher-ng-argocd-helm/)| ArgoCD Helm Chart | Caching proxy for package files from Linux distributors. |
-| [Cloudflare Tunnel](./cloudflared-tunnel-argocd-helm/)| ArgoCD Helm Chart | Enable Internet Access for your applications without Public IP address |
-| [Custom-Alerts](./custom-alerts/)| ArgoCD Kustomize | Alerts for Prometheus Operator Alertmanager for: Node Hardware, ArgoCD Sync Issues, Cert-Manager, Longhorn, Mosquitto, Sealed Secrets, Traefik Ingress Error codes, ZFS Monitoring. |
-| [External Snapshotter](./external-snapshotter-argocd-kustomize/)| ArgoCD Kustomize | The CSI snapshotter for Kubernetes implementation of [Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec) |
-| [Gitea](./gitea-argocd-kustomize/) | ArgoCD Kustomize | It is similar to GitHub, Bitbucket, and GitLab. |
-| [Goldilocks](./goldilocks/) | ArgoCD Helm Chart | Uses [Vertical Pod Autoscaler (VPA)](./vpa/) to make recommendations on container limit and request recommendations, includes a dashboard. |
-| [Home Assistant](./home-assistant-argocd-helm/) | ArgoCD Helm Chart | Open source home automation that puts local control and privacy first.|
-| [Mosquitto](./mosquitto/) | ArgoCD Kustomize | Eclipse Mosquitto is a lightweight MQTT Message Broker |
-| [Mosquitto](./mosquitto-argocd-helm/) | ArgoCD Helm Chart | Eclipse Mosquitto lightweight MQTT Message Broker |
-| [Mosquitto-Exporter](./mosquitto-exporter/) |  ArgoCD Kustomize | Exposes Mosquitto MQTT Broker Metrics as Prometheus Service Monitor. |
-| [Pod Restart Info Collector](./pod-restart-info-collector/) | ArgoCD Helm Chart | Controller to monitor and provide detailed alerts when pods restart. |
-| [Rook-Ceph](./rook-ceph-argocd-helm/) | ArgoCD Helm Chart | Rook operator and Ceph Cluster Storage for Block, FileSystem and Object (S3) storage. |
-| [Syncthing](./syncthing-argocd-helm/) | ArgoCD Helm Chart | Synchronizes files between two or more computers in real time, safely protected from prying eyes. |
-| [Trilium Notes](./trilium-notes-argocd-helm/) | ArgoCD Helm Chart | Hierarchical note taking application with focus on building large personal knowledge bases. |
-| [Unifi Controller](./unifi-controller-argocd-helm/) | ArgoCD Helm Chart | Wireless Network Management Software from Ubiquiti. |
-| [Unpoller-Exporter](./unpoller-exporter/) | ArgoCD Kustomize | Exposes [Unifi Controller](./unifi-controller-argocd-helm/) Management Software Metrics as Prometheus Pod Monitor. |
-| [Velero Backup](./velero-argocd-helm/) | ArgoCD Helm | Backup and Restore applications and Persistent Volumes. Migrate applications between clusters. Used with [External Snaphotter](./external-snapshotter-argocd-kustomize/).|
-| [Vertical Pod Autoscaler (VPA)](./vpa/) | ArgoCD Helm Chart | Enables ability to make container resource limit and request recommendations, used with [Goldilocks](./goldilocks/). |
-| [Zigbee2MQTT](./zigbee2mqtt-argocd-helm/) | ArgoCD Helm Chart |A Zigbee to MQTT ([Mosquitto](./mosquitto/)) Bridge, works great with [Home Assistant](./home-assistant-argocd-helm/).
+| [Apt-Cacher NG](./apps/apt-cacher-ng-argocd-helm/)| ArgoCD Helm Chart | Caching proxy for package files from Linux distributors. |
+| [Cloudflare Tunnel](./apps/cloudflared-tunnel-argocd-helm/)| ArgoCD Helm Chart | Enable Internet Access for your applications without Public IP address |
+| [Custom-Alerts](./apps/custom-alerts/)| ArgoCD Kustomize | Alerts for Prometheus Operator Alertmanager for: Node Hardware, ArgoCD Sync Issues, Cert-Manager, Longhorn, Mosquitto, Sealed Secrets, Traefik Ingress Error codes, ZFS Monitoring. |
+| [External Snapshotter](./apps/external-snapshotter-argocd-kustomize/)| ArgoCD Kustomize | The CSI snapshotter for Kubernetes implementation of [Container Storage Interface (CSI)](https://github.com/container-storage-interface/spec) |
+| [Gitea](./apps/gitea-argocd-kustomize/) | ArgoCD Kustomize | It is similar to GitHub, Bitbucket, and GitLab. |
+| [Goldilocks](./goldilocks/) | ArgoCD Helm Chart | Uses [Vertical Pod Autoscaler (VPA)](./apps/vpa/) to make recommendations on container limit and request recommendations, includes a dashboard. |
+| [Home Assistant](./apps/home-assistant-argocd-helm/) | ArgoCD Helm Chart | Open source home automation that puts local control and privacy first.|
+| [Mosquitto](./apps/mosquitto/) | ArgoCD Kustomize | Eclipse Mosquitto is a lightweight MQTT Message Broker |
+| [Mosquitto](./apps/mosquitto-argocd-helm/) | ArgoCD Helm Chart | Eclipse Mosquitto lightweight MQTT Message Broker |
+| [Mosquitto-Exporter](./apps/mosquitto-exporter/) |  ArgoCD Kustomize | Exposes Mosquitto MQTT Broker Metrics as Prometheus Service Monitor. |
+| [Pod Restart Info Collector](./apps/pod-restart-info-collector/) | ArgoCD Helm Chart | Controller to monitor and provide detailed alerts when pods restart. |
+| [Rook-Ceph](./apps/rook-ceph-argocd-helm/) | ArgoCD Helm Chart | Rook operator and Ceph Cluster Storage for Block, FileSystem and Object (S3) storage. |
+| [Syncthing](./apps/syncthing-argocd-helm/) | ArgoCD Helm Chart | Synchronizes files between two or more computers in real time, safely protected from prying eyes. |
+| [Trilium Notes](./apps/trilium-notes-argocd-helm/) | ArgoCD Helm Chart | Hierarchical note taking application with focus on building large personal knowledge bases. |
+| [Unifi Controller](./apps/unifi-controller-argocd-helm/) | ArgoCD Helm Chart | Wireless Network Management Software from Ubiquiti. |
+| [Unpoller-Exporter](./apps/unpoller-exporter/) | ArgoCD Kustomize | Exposes [Unifi Controller](./apps/unifi-controller-argocd-helm/) Management Software Metrics as Prometheus Pod Monitor. |
+| [Velero Backup](./apps/velero-argocd-helm/) | ArgoCD Helm | Backup and Restore applications and Persistent Volumes. Migrate applications between clusters. Used with [External Snaphotter](./apps/external-snapshotter-argocd-kustomize/).|
+| [Vertical Pod Autoscaler (VPA)](./apps/vpa/) | ArgoCD Helm Chart | Enables ability to make container resource limit and request recommendations, used with [Goldilocks](./apps/goldilocks/). |
+| [Zigbee2MQTT](./apps/zigbee2mqtt-argocd-helm/) | ArgoCD Helm Chart |A Zigbee to MQTT ([Mosquitto](./apps/mosquitto-argocd-helm/)) Bridge, works great with [Home Assistant](./apps/home-assistant-argocd-helm/).

@@ -51,6 +51,7 @@ If you don't plan on using ArgoCD to deploy these applications, you can just ext
 | [Trilium Notes](./apps/trilium-notes-argocd-helm/) | ArgoCD Helm Chart | Hierarchical note taking application with focus on building large personal knowledge bases. |
 | [Unifi Controller](./apps/unifi-controller-argocd-helm/) | ArgoCD Helm Chart | Wireless Network Management Software from Ubiquiti. |
 | [Unpoller-Exporter](./apps/unpoller-exporter/) | ArgoCD Kustomize | Exposes [Unifi Controller](./apps/unifi-controller-argocd-helm/) Management Software Metrics as Prometheus Pod Monitor. |
+| [Uptime Kuma](./apps/uptime-kuma-argocd-helm/) | ArgoCD Helm Chart | A self-hosted monitoring tool with dashboard, status pages and alerting. |
 | [Velero Backup](./apps/velero-argocd-helm/) | ArgoCD Helm | Backup and Restore applications and Persistent Volumes. Migrate applications between clusters. Used with [External Snaphotter](./apps/external-snapshotter-argocd-kustomize/).|
 | [Vertical Pod Autoscaler (VPA)](./apps/vpa/) | ArgoCD Helm Chart | Enables ability to make container resource limit and request recommendations, used with [Goldilocks](./apps/goldilocks/). |
 | [Zigbee2MQTT](./apps/zigbee2mqtt-argocd-helm/) | ArgoCD Helm Chart |A Zigbee to MQTT ([Mosquitto](./apps/mosquitto-argocd-helm/)) Bridge, works great with [Home Assistant](./apps/home-assistant-argocd-helm/).

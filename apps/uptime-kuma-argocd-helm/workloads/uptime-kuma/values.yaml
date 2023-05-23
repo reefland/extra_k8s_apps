@@ -1,0 +1,87 @@
+# https://github.com/dirsigler/uptime-kuma-helm/blob/main/charts/uptime-kuma/values.yaml
+
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+controller:
+  enabled: true
+  # Valid options are deployment, daemonset or statefulset
+  type: statefulset
+  revisionHistoryLimit: 3
+
+image:
+  repository: louislam/uptime-kuma
+  pullPolicy: IfNotPresent
+  tag: "1.21.3"
+
+env:
+  TZ: America/New_York
+  UPTIME_KUMA_PORT: &port 3001
+
+service:
+  main:
+    ports:
+      http:
+        port: *port
+
+probes:
+  liveness: &probes
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /
+        port: *port
+      initialDelaySeconds: 0
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+  readiness: *probes
+  startup:
+    enabled: true 
+    type: TCP
+    spec:
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 1
+      failureThreshold: 30
+
+ingress:
+  main:
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      traefik.ingress.kubernetes.io/router.middlewares: "traefik-x-forward-https-headers@kubernetescrd,traefik-compress@kubernetescrd"
+    hosts:
+      - host: &host uptime.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 384Mi
+  limits:
+    memory: 384Mi
+
+# API Key for Prometheus Scrapes: https://github.com/louislam/uptime-kuma/wiki/API-Keys
+#  - job_name: 'uptime'
+#    scrape_interval: 30s
+#    scheme: http
+#    metrics_path: '/metrics'
+#    static_configs:
+#      - targets: ['uptime.url']
+#    basic_auth: 
+#      password: <api key>
+
+persistence:
+  data:
+    enabled: true
+    mountPath: /app/data
+    type: pvc
+    accessMode: ReadWriteOnce
+    size: 4Gi
+    retain: true
+    storageClass: ceph-block
+    # volumeName:

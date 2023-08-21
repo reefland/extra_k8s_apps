@@ -9,7 +9,8 @@ image:
 
 initContainers:
   # This removes warning messages:
-  # Warning: File /mosquitto/external_config/mosquitto_pwd has world readable permissions. Future versions will refuse to load this file.
+  # Warning: File /mosquitto/external_config/mosquitto_pwd has world readable permissions.
+  # Future versions will refuse to load this file.
   01-init-config:
     image: public.ecr.aws/docker/library/eclipse-mosquitto:2.0.16
     imagePullPolicy: IfNotPresent

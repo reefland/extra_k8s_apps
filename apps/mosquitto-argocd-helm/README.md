@@ -3,7 +3,7 @@
 [Return to Application List](../../)
 
 * Helm based ArgoCD application deployment
- Based on [Bernd Schorgers](https://bjw-s.github.io/helm-charts/docs/) standard `app-template` which replaces the deprecated [k8s@home](https://github.com/k8s-at-home/charts) common template
+* Based on [Bernd Schorgers](https://bjw-s.github.io/helm-charts/docs/) standard `app-template` which replaces the deprecated [k8s@home](https://github.com/k8s-at-home/charts) common template
 * Deployed as a Statefulset with a 100Mi Persistent Storage Volume for configuration
 
 Review file `mosquitto-argocd-helm/applications/mosquitto.yaml`

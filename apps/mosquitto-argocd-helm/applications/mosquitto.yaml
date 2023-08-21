@@ -1,7 +1,5 @@
 # References:
-# https://github.com/reefland/helm-charts/tree/main/charts/apps/mosquitto
-# https://github.com/reefland/helm-charts/blob/main/charts/apps/mosquitto/values.yaml
-# https://github.com/reefland/helm-charts/blob/main/charts/library/common/values.yaml
+# https://github.com/reefland/extra_k8s_apps/tree/master/apps/mosquitto-argocd-helm
 
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json
@@ -19,104 +17,17 @@ metadata:
 spec:
   project: default
   revisionHistoryLimit: 3
-  
-  source:
-    chart: mosquitto
-    repoURL: https://reefland.github.io/helm-charts
-    targetRevision: 4.8.2
-    helm:
-      values: |
-        image:
-          repository: eclipse-mosquitto
-          # renovate: datasource=docker depName=eclipse-mosquitto
-          tag: "2.0.15"
 
-        controller:
-          enabled: true
-          # Valid options are deployment, daemonset or statefulset
-          type: statefulset
-          revisionHistoryLimit: 3
-
-        env:
-          TZ: "America/New York"
-
-        service:
-          main:
-            enabled: true
-            ports:
-              http:
-                enabled: false
-              mqtt:
-                enabled: true
-                port: 1883
-            type: LoadBalancer
-            loadBalancerIP: 192.168.10.222
-
-        podSecurityContext:
-          runAsUser: 1883
-          runAsGroup: 1883
-          fsGroup: 1883
-          fsGroupChangePolicy: OnRootMismatch
-
-        resources:
-          requests:
-            cpu: "50m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-            
-        auth:
-          enabled: true
-
-        configmap:
-          mosquitto-pass-file:
-            enabled: true
-            data:
-              password.conf: |
-                # The password file.
-                # Use the `mosquitto_passwd` utility.
-                password_file /mosquitto/configinc/passwd.txt
-                
-          mosquitto-passwords:
-            enabled: true
-            data:
-              passwd.txt: |
-                mqtt-user:$6$ZLO [EXAMPLE] Qeow==
-
-        persistence:
-          data:
-            enabled: true
-            mountPath: /mosquitto/data
-            type: pvc
-            accessMode: ReadWriteOnce
-            size: 100Mi
-            retain: true
-            # existingClaim:
-            # volumeName:
-
-          configinc:
-            enabled: true
-            mountPath: /mosquitto/configinc
-            medium: Memory
-            type: emptyDir
-            sizeLimit: 1Mi
-
-          mosquitto-pass-file:
-            enabled: true
-            type: configMap
-            name: mosquitto-mqtt-mosquitto-pass-file
-            mountPath: /mosquitto/configinc/password.conf
-            subPath: password.conf
-            readOnly: true
-
-          mosquitto-passwords:
-            enabled: true
-            type: configMap
-            name: mosquitto-mqtt-mosquitto-passwords
-            mountPath: /mosquitto/configinc/passwd.txt
-            subPath: passwd.txt
-            readOnly: true
-
+  sources:
+    - repoURL: https://bjw-s.github.io/helm-charts
+      chart: app-template
+      targetRevision: 1.5.0
+      helm:
+        valueFiles:
+          - $values/workloads/mosquitto/values.yaml
+    - repoURL: 'https://github.com/<USER_NAME>/<REPO_NAME>.git'
+      targetRevision: HEAD
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: mosquitto

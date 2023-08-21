@@ -1,0 +1,113 @@
+# https://github.com/bjw-s/helm-charts/blob/main/charts/library/common/values.yaml
+
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+image:
+  repository: public.ecr.aws/docker/library/eclipse-mosquitto
+  tag: 2.0.16
+
+initContainers:
+  # This removes warning messages:
+  # Warning: File /mosquitto/external_config/mosquitto_pwd has world readable permissions. Future versions will refuse to load this file.
+  01-init-config:
+    image: public.ecr.aws/docker/library/eclipse-mosquitto:2.0.16
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh", "-c"]
+    args: ["cp /data/mosquitto_secret/* /data/external_config/ && chmod 440 /data/external_config/mosquitto_pwd"]
+    volumeMounts:
+      - { name: mosquitto-passwords, mountPath: /data/mosquitto_secret }
+      - { name: external-config, mountPath: /data/external_config }
+
+controller:
+  enabled: true
+  # Valid options are deployment, daemonset or statefulset
+  type: statefulset
+  revisionHistoryLimit: 3
+
+env:
+  TZ: "America/New York"
+
+service:
+  main:
+    enabled: true
+    annotations:
+      kube-vip.io/loadbalancerIPs: 192.168.10.241
+    ports:
+      http:
+        enabled: false
+      mqtt:
+        enabled: true
+        port: 1883
+    type: LoadBalancer
+    loadBalancerIP: 192.168.10.241
+
+podSecurityContext:
+  runAsUser: 1883
+  runAsGroup: 1883
+  fsGroup: 1883
+  fsGroupChangePolicy: OnRootMismatch
+
+resources:
+  requests:
+    cpu: "50m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+    
+auth:
+  enabled: true
+
+configMaps:
+  mosquitto-configmap:
+    enabled: true
+    data:
+      mosquitto.conf: |
+        per_listener_settings false
+        listener 1883
+        allow_anonymous false
+        persistence true
+        persistence_location /data
+        connection_messages false
+        autosave_interval 120
+        password_file /mosquitto/external_config/mosquitto_pwd
+        
+  mosquitto-passwords:
+    enabled: true
+    data:
+      mosquitto_pwd: |
+        mqtt-user:$6$ZLO-[EXAMPLE]-Qeow==
+
+persistence:
+  data:
+    enabled: true
+    mountPath: /data
+    type: pvc
+    accessMode: ReadWriteOnce
+    size: 100Mi
+    retain: true
+    # storageClass:
+    # volumeName:
+    # existingClaim: 
+
+  config-file:
+    enabled: true
+    type: configMap
+    name: mosquitto-mqtt-mosquitto-configmap
+    mountPath: /mosquitto/config/mosquitto.conf
+    subPath: mosquitto.conf
+
+  mosquitto-passwords:
+    enabled: true
+    type: configMap
+    name: mosquitto-mqtt-mosquitto-passwords
+    mountPath: /data/mosquitto_secret/mosquitto_pwd
+    subPath: mosquitto_pwd
+    readOnly: true
+
+  external-config:
+    enabled: true
+    type: emptyDir
+    sizeLimit: 1Mi
+    mountPath: /mosquitto/external_config
+    medium: Memory

@@ -16,7 +16,7 @@ Review `unpoller-exporter/kustomization.yaml`
   ```yaml
   images:
     - name: golift/unifi-poller
-      newTag: 2.1.3
+      newTag: v2.8.3
   ```
 
 * Review configMapGenerator file referenced in `./base/conf/up.conf`

@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  namespace: argocd
+  name: coredns-autoscaler
+  # cascade deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"  # Lower the number the sooner to deploy
+spec:
+  project: default
+  revisionHistoryLimit: 3
+
+  sources:
+    # https://github.com/kubernetes-sigs/cluster-proportional-autoscaler
+    - repoURL: https://kubernetes-sigs.github.io/cluster-proportional-autoscaler
+      chart: cluster-proportional-autoscaler
+      targetRevision: 1.1.0
+      helm:
+        valueFiles:
+          - $values/workloads/coredns-autoscaler/values.yaml
+    - repoURL: 'https://github.com/<USER_NAME>/<REPO_NAME>.git'
+      targetRevision: HEAD
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: proportional-autoscaler
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Validate=true

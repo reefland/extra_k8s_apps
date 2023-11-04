@@ -1,0 +1,20 @@
+# https://github.com/kubernetes-sigs/cluster-proportional-autoscaler/blob/master/charts/cluster-proportional-autoscaler/values.yaml
+
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+image:
+  repository: registry.k8s.io/cpa/cluster-proportional-autoscaler
+  pullPolicy: IfNotPresent
+  tag: v1.8.9
+
+config:
+  linear:
+    coresPerReplica: 64
+    nodesPerReplica: 8
+    min: 2
+    max: 10
+    preventSinglePointFailure: true
+options:
+  namespace: kube-system
+  target: deployment/coredns

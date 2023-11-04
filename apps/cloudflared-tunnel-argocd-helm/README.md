@@ -53,7 +53,7 @@ Review file `cloudflared-tunnel-argocd-helm/namespaces/cloudflared.yaml` to matc
 
 ---
 
-Review file `cloudflared-tunnel-argocd-helm/workloads/values.yaml`
+Review file `cloudflared-tunnel-argocd-helm/workloads/cloudflared/values.yaml`
 
 * The service `main` is only needed for the Prometheus serviceMonitor to scrape metrics. If you do not wish to enable the service monitor then this can be disabled.
 

@@ -49,7 +49,7 @@ Review file `coredns-autoscaler-argocd-helm/namespaces/proportional-autoscaler.y
 
 ---
 
-Review file `coredns-autoscaler-argocd-helm/workloads/values.yaml`
+Review file `coredns-autoscaler-argocd-helm/workloads/coredns-autoscaler/values.yaml`
 
 * The `config` sections defines how CoreDNS will be scaled based on the size of the cluster.
 

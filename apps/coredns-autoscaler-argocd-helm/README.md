@@ -51,7 +51,7 @@ Review file `coredns-autoscaler-argocd-helm/namespaces/proportional-autoscaler.y
 
 Review file `coredns-autoscaler-argocd-helm/workloads/coredns-autoscaler/values.yaml`
 
-* The `config` sections defines how CoreDNS will be scaled based on the size of the cluster.
+* The `config` section defines how CoreDNS will be scaled based on the size of the cluster.
 
   ```yaml
   config:
@@ -68,7 +68,7 @@ Review file `coredns-autoscaler-argocd-helm/workloads/coredns-autoscaler/values.
   * For every 64 cores an instance is added
     * If the number of cores divided by 64 or the number of nodes divided by 8 is higher than the minimum of 2 then that number of Replicas will be used.
 
-* The `options` sections defined where the CoreDNS deployment is located.
+* The `options` section defines where the CoreDNS deployment is located.
 
   ```yaml
   options:
